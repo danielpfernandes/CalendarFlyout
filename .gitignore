@@ -1,0 +1,4 @@
+bin/
+obj/
+client_secret.json
+*.user
