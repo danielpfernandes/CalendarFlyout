@@ -69,7 +69,15 @@ public partial class MainWindow : Window
         StatusText.Text = "Conclua o login no navegador e reabra a agenda pela bandeja.";
         using var timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
         timeout.CancelAfter(TimeSpan.FromMinutes(3));
-        await _calendar.ConnectAsync(timeout.Token);
+        try
+        {
+            await _calendar.ConnectAsync(timeout.Token);
+        }
+        catch (OperationCanceledException) when (!token.IsCancellationRequested)
+        {
+            StatusText.Text = "Tempo esgotado para concluir o login no navegador. Tente novamente.";
+            return;
+        }
         await RefreshAsync(token);
         // Nunca rouba foco nem reabre o painel após o retorno do navegador.
     });
@@ -202,7 +210,7 @@ public partial class MainWindow : Window
         try { await operation(_lifetime.Token); }
         catch (OperationCanceledException)
         {
-            if (!_stopping) StatusText.Text = "Operação cancelada ou login expirado. Tente novamente.";
+            if (!_stopping) StatusText.Text = "Tempo esgotado ao comunicar com o Google. Verifique sua conexão e tente novamente.";
         }
         catch (TokenResponseException)
         {

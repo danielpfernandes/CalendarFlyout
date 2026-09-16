@@ -1,5 +1,7 @@
 # CalendarFlyout — WPF / .NET 8
 
+*[Read in English](README.en.md)*
+
 Utilitário de bandeja para Windows 11. Abre uma agenda compacta no canto inferior direito do monitor sob o ponteiro, respeitando a área útil e a escala DPI. Consulta a **agenda principal** da conta Google em modo somente leitura.
 
 ## Estrutura
@@ -24,7 +26,8 @@ CalendarFlyout/
 │   ├── CalendarFlyout.Tests.csproj
 │   └── Program.cs                # Verificações executáveis sem framework extra
 ├── .gitignore
-└── README.md
+├── README.md
+└── README.en.md
 ```
 
 ## 1. Preparar o Google Cloud
@@ -37,10 +40,11 @@ CalendarFlyout/
 
 O código valida a seção `installed` desse arquivo e usa somente `client_id` e `client_secret`. O cliente OAuth usa o navegador padrão e um callback loopback local gerenciado pelo SDK. Não use credenciais Web ou conta de serviço.
 
-Escopo solicitado:
+Escopos solicitados:
 
 ```text
 https://www.googleapis.com/auth/calendar.events.readonly
+https://www.googleapis.com/auth/calendar.calendarlist.readonly
 ```
 
 A credencial real não acompanha este projeto. O arquivo é ignorado pelo Git e copiado para a saída na compilação/publicação quando está presente. É possível compilar sem ele; o painel informa como configurá-lo ao conectar.
