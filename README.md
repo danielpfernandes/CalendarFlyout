@@ -69,6 +69,10 @@ dotnet publish .\CalendarFlyout.csproj -c Release -r win-x64 --self-contained tr
 
 Para Windows ARM64, troque `win-x64` por `win-arm64`. Distribua toda a pasta publicada; `client_secret.json` deve ficar ao lado do executável. Não há instalação de serviço, agendamento ou execução automática no login do Windows.
 
+### Release automatizada
+
+O workflow `.github/workflows/release.yml` publica automaticamente uma build self-contained `win-x64` e anexa o zip a uma GitHub Release. Ele roda ao enviar uma tag no formato `vX.Y.Z` (`git tag v1.0.0 && git push origin v1.0.0`) ou manualmente pela aba **Actions** (`workflow_dispatch`, informando a tag desejada). `client_secret.json` não é incluído no zip, pois não faz parte do repositório.
+
 ## 3. Usar
 
 - A execução começa totalmente oculta, apenas com ícone na bandeja. O Windows pode colocá-lo no menu de ícones ocultos; fixe-o na área de notificação se desejar.
