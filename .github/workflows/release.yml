@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag da release a criar (ex.: v1.0.0)"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restaurar dependências
+        run: dotnet restore .\CalendarFlyout.csproj
+
+      - name: Publicar (self-contained win-x64)
+        run: >
+          dotnet publish .\CalendarFlyout.csproj -c Release -r win-x64
+          --self-contained true -o .\publish
+
+      - name: Compactar saída do publish
+        shell: pwsh
+        run: Compress-Archive -Path .\publish\* -DestinationPath .\CalendarFlyout-win-x64.zip
+
+      - name: Resolver a tag da release
+        id: tag
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "tag=${{ inputs.tag }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Criar release e publicar o zip
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          files: CalendarFlyout-win-x64.zip
+          generate_release_notes: true
