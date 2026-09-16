@@ -1,5 +1,7 @@
 # CalendarFlyout — WPF / .NET 8
 
+*[Read in English](README.en.md)*
+
 Utilitário de bandeja para Windows 11. Abre uma agenda compacta no canto inferior direito do monitor sob o ponteiro, respeitando a área útil e a escala DPI. Consulta a **agenda principal** da conta Google em modo somente leitura.
 
 ## Estrutura
@@ -24,7 +26,8 @@ CalendarFlyout/
 │   ├── CalendarFlyout.Tests.csproj
 │   └── Program.cs                # Verificações executáveis sem framework extra
 ├── .gitignore
-└── README.md
+├── README.md
+└── README.en.md
 ```
 
 ## 1. Preparar o Google Cloud
