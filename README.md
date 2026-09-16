@@ -37,10 +37,11 @@ CalendarFlyout/
 
 O código valida a seção `installed` desse arquivo e usa somente `client_id` e `client_secret`. O cliente OAuth usa o navegador padrão e um callback loopback local gerenciado pelo SDK. Não use credenciais Web ou conta de serviço.
 
-Escopo solicitado:
+Escopos solicitados:
 
 ```text
 https://www.googleapis.com/auth/calendar.events.readonly
+https://www.googleapis.com/auth/calendar.calendarlist.readonly
 ```
 
 A credencial real não acompanha este projeto. O arquivo é ignorado pelo Git e copiado para a saída na compilação/publicação quando está presente. É possível compilar sem ele; o painel informa como configurá-lo ao conectar.
